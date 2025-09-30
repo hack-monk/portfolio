@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Setup</title>
+    <style>
+        body {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            background: #000000;
+            color: #cccccc;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .step {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .step h3 {
+            color: #eab308;
+            margin-top: 0;
+        }
+        .code {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .warning {
+            background: #2a1a00;
+            border: 1px solid #ffaa00;
+            color: #ffaa00;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .success {
+            background: #1a2a00;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .button {
+            background: #eab308;
+            color: #000000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        .button:hover {
+            background: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Terminal Portfolio Setup</h1>
+            <p>Follow these steps to customize your portfolio</p>
+        </div>
+
+        <div class="step">
+            <h3>1. 📝 Edit Configuration</h3>
+            <p>Open <code>config.js</code> and update with your information:</p>
+            <div class="code">
+// Personal Information
+personal: {
+    name: "Your Name",
+    title: "Your Job Title",
+    email: "your.email@example.com",
+    phone: "+1 (234) 567-890",
+    location: "Your City, State",
+    website: "https://yourwebsite.com",
+    github: "https://github.com/yourusername",
+    linkedin: "https://linkedin.com/in/yourusername",
+    resume: "resume.pdf"
+}
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>2. 📄 Update Resume</h3>
+            <p>Replace the placeholder files with your content:</p>
+            <ul>
+                <li>Replace <code>resume.pdf</code> with your actual resume</li>
+                <li>Update <code>resume.html</code> with your resume content</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>3. 🎨 Customize Content</h3>
+            <p>Update the following sections in <code>config.js</code>:</p>
+            <ul>
+                <li><strong>Skills:</strong> Add your technical skills</li>
+                <li><strong>Experience:</strong> Add your work experience</li>
+                <li><strong>Education:</strong> Add your educational background</li>
+                <li><strong>Projects:</strong> Add your portfolio projects</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>4. 📧 Contact Form (Optional)</h3>
+            <p>Set up Formspree for contact form handling:</p>
+            <ol>
+                <li>Go to <a href="https://formspree.io" target="_blank">formspree.io</a></li>
+                <li>Create a new form</li>
+                <li>Copy your form ID</li>
+                <li>Update <code>config.js</code> with your form ID</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>5. 🚀 Deploy</h3>
+            <p>Choose your deployment option:</p>
+            <ul>
+                <li><strong>GitHub Pages:</strong> Push to GitHub and enable Pages</li>
+                <li><strong>Netlify:</strong> Drag and drop your folder</li>
+                <li><strong>Vercel:</strong> Connect your GitHub repository</li>
+                <li><strong>Any web hosting:</strong> Upload files via FTP</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> Make sure to test your portfolio locally before deploying. Open <code>index.html</code> in your browser to preview.
+        </div>
+
+        <div class="success">
+            <strong>✅ Ready to go!</strong> Once you've completed the setup, your portfolio will be ready to showcase your skills and experience.
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="button">View Portfolio</a>
+            <a href="config.js" class="button">Edit Config</a>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="setup.js"></script>
+</body>
+</html>

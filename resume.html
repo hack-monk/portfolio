@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        
+        .header .title {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-info span {
+            color: #555;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            color: #2563eb;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .education-item, .experience-item {
+            margin-bottom: 20px;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .item-date {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .item-company {
+            color: #2563eb;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .item-description {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .skill-category h3 {
+            font-size: 1.1rem;
+            color: #2563eb;
+            margin-bottom: 8px;
+        }
+        
+        .skill-list {
+            color: #555;
+        }
+        
+        .projects-list {
+            list-style: none;
+        }
+        
+        .projects-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .projects-list li::before {
+            content: "•";
+            color: #2563eb;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .achievements-list {
+            list-style: none;
+        }
+        
+        .achievements-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .achievements-list li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 15px;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Your Name</h1>
+        <div class="title">Software Developer | Recent Master's Graduate</div>
+        <div class="contact-info">
+            <span>📧 your.email@example.com</span>
+            <span>📱 +1 (555) 123-4567</span>
+            <span>📍 Your City, Country</span>
+            <span>🔗 linkedin.com/in/yourprofile</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Professional Summary</h2>
+        <p>
+            Recent Master's graduate in Computer Science with a strong foundation in software development, 
+            data analysis, and problem-solving. Passionate about creating innovative solutions and eager 
+            to contribute to cutting-edge projects. Proven ability to work in team environments and 
+            deliver high-quality results under tight deadlines.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Education</h2>
+        <div class="education-item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Master of Science in Computer Science</div>
+                    <div class="item-company">Your University</div>
+                </div>
+                <div class="item-date">2022 - 2024</div>
+            </div>
+            <div class="item-description">
+                <strong>GPA:</strong> 3.8/4.0<br>
+                <strong>Relevant Coursework:</strong> Advanced Algorithms, Machine Learning, Database Systems, 
+                Software Engineering, Data Structures, Computer Networks
+            </div>
+        </div>
+        
+        <div class="education-item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Bachelor of Science in Computer Science</div>
+                    <div class="item-company">Your Previous University</div>
+                </div>
+                <div class="item-date">2018 - 2022</div>
+            </div>
+            <div class="item-description">
+                <strong>GPA:</strong> 3.6/4.0<br>
+                <strong>Honors:</strong> Magna Cum Laude, Dean's List (4 semesters)
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Professional Experience</h2>
+        <div class="experience-item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Software Developer Intern</div>
+                    <div class="item-company">Tech Company Inc.</div>
+                </div>
+                <div class="item-date">Summer 2023</div>
+            </div>
+            <div class="item-description">
+                • Developed and maintained web applications using React, Node.js, and MongoDB<br>
+                • Collaborated with senior developers in an agile environment<br>
+                • Implemented RESTful APIs and improved application performance by 25%<br>
+                • Participated in code reviews and contributed to team documentation
+            </div>
+        </div>
+        
+        <div class="experience-item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Research Assistant</div>
+                    <div class="item-company">University Research Lab</div>
+                </div>
+                <div class="item-date">2022 - 2024</div>
+            </div>
+            <div class="item-description">
+                • Conducted research in machine learning and data analysis<br>
+                • Developed Python scripts for data processing and visualization<br>
+                • Co-authored 2 research papers published in academic journals<br>
+                • Presented findings at 3 international conferences
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Programming Languages</h3>
+                <div class="skill-list">Python, JavaScript, Java, C++, SQL, R</div>
+            </div>
+            <div class="skill-category">
+                <h3>Web Technologies</h3>
+                <div class="skill-list">HTML/CSS, React, Node.js, Express, MongoDB, PostgreSQL</div>
+            </div>
+            <div class="skill-category">
+                <h3>Data Science</h3>
+                <div class="skill-list">Pandas, NumPy, Scikit-learn, TensorFlow, Jupyter, Matplotlib</div>
+            </div>
+            <div class="skill-category">
+                <h3>Tools & Others</h3>
+                <div class="skill-list">Git, Docker, AWS, Linux, Agile, JIRA</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Key Projects</h2>
+        <ul class="projects-list">
+            <li><strong>E-Commerce Platform:</strong> Full-stack web application with React frontend, Node.js backend, and MongoDB database. Features include user authentication, payment processing, and admin dashboard.</li>
+            <li><strong>Machine Learning Model:</strong> Developed a predictive model for customer behavior analysis using Python, achieving 85% accuracy in predictions.</li>
+            <li><strong>Mobile Task Manager:</strong> Cross-platform mobile app built with React Native, featuring real-time synchronization and offline support.</li>
+            <li><strong>Data Visualization Dashboard:</strong> Interactive dashboard for business intelligence using Python and deployed on AWS cloud services.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Achievements & Certifications</h2>
+        <ul class="achievements-list">
+            <li>AWS Certified Cloud Practitioner (2023)</li>
+            <li>Google Data Analytics Professional Certificate (2023)</li>
+            <li>Winner of University Hackathon 2023 - Best Innovation Award</li>
+            <li>Published 2 research papers in peer-reviewed journals</li>
+            <li>Dean's List for 6 consecutive semesters</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Languages</h2>
+        <p><strong>English:</strong> Native/Fluent | <strong>Spanish:</strong> Conversational | <strong>French:</strong> Basic</p>
+    </div>
+</body>
+</html>
+
