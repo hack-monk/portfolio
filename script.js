@@ -55,6 +55,52 @@ function loadConfiguration() {
     
     // Update terminal configuration
     updateTerminalConfig(config);
+    
+    // Initialize real-time timestamps
+    initRealTimeTimestamps();
+}
+
+// Initialize real-time timestamps for file listings
+function initRealTimeTimestamps() {
+    const timestampElements = document.querySelectorAll('.timestamp');
+    
+    // Generate realistic timestamps for each file/directory
+    const now = new Date();
+    const baseTime = now.getTime();
+    
+    // Different timestamps for different files (simulating when they were last modified)
+    const timestampOffsets = {
+        'about': -2 * 60 * 60 * 1000,      // 2 hours ago
+        'skills': -4 * 60 * 60 * 1000,     // 4 hours ago
+        'education': -6 * 60 * 60 * 1000,   // 6 hours ago
+        'experience': -8 * 60 * 60 * 1000,  // 8 hours ago
+        'projects': -1 * 60 * 60 * 1000,   // 1 hour ago
+        'resume': -12 * 60 * 60 * 1000,    // 12 hours ago
+        'contact': -30 * 60 * 1000          // 30 minutes ago
+    };
+    
+    timestampElements.forEach(element => {
+        const timestampType = element.getAttribute('data-timestamp');
+        const offset = timestampOffsets[timestampType] || 0;
+        const fileTime = new Date(baseTime + offset);
+        
+        // Format as "MMM DD HH:MM" (e.g., "Jan 15 10:30")
+        const formattedTime = formatTimestamp(fileTime);
+        element.textContent = formattedTime;
+    });
+}
+
+// Format timestamp in Linux ls -la style
+function formatTimestamp(date) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const month = months[date.getMonth()];
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    
+    return `${month} ${day} ${hours}:${minutes}`;
 }
 
 // Update page title and terminal title
@@ -134,14 +180,197 @@ function updateSkillsSection(config) {
 
 // Update experience section
 function updateExperienceSection(config) {
-    // Experience content is already in HTML
-    // This could be enhanced to dynamically generate experience
+    const experienceSection = document.getElementById('experience');
+    if (!experienceSection) return;
+    
+    const terminalOutput = experienceSection.querySelector('.terminal-output');
+    if (!terminalOutput) return;
+    
+    // Clear existing content
+    terminalOutput.innerHTML = '';
+    
+    // Add command line
+    const commandLine = document.createElement('div');
+    commandLine.className = 'command-line';
+    commandLine.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">cat experience.log</span>`;
+    terminalOutput.appendChild(commandLine);
+    
+    // Generate experience entries with realistic timestamps
+    const now = new Date();
+    const baseTime = now.getTime();
+    
+    // Different timestamps for different experiences (simulating when they were logged)
+    const experienceOffsets = [
+        -1 * 60 * 60 * 1000,      // 1 hour ago (most recent)
+        -3 * 60 * 60 * 1000,      // 3 hours ago
+        -6 * 60 * 60 * 1000       // 6 hours ago
+    ];
+    
+    config.experience.forEach((exp, index) => {
+        const offset = experienceOffsets[index] || -1 * 60 * 60 * 1000;
+        const experienceTime = new Date(baseTime + offset);
+        const timestamp = experienceTime.toISOString().replace('T', ' ').substring(0, 19);
+        
+        // Add timestamp and title
+        const titleLine = document.createElement('div');
+        titleLine.className = 'output-line';
+        titleLine.innerHTML = `<span class="output">[${timestamp}] [INFO] ${exp.title}</span>`;
+        terminalOutput.appendChild(titleLine);
+        
+        // Add company
+        const companyLine = document.createElement('div');
+        companyLine.className = 'output-line';
+        companyLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Company: ${exp.company}</span>`;
+        terminalOutput.appendChild(companyLine);
+        
+        // Add duration
+        const durationLine = document.createElement('div');
+        durationLine.className = 'output-line';
+        durationLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Duration: ${exp.duration}</span>`;
+        terminalOutput.appendChild(durationLine);
+        
+        // Add location
+        const locationLine = document.createElement('div');
+        locationLine.className = 'output-line';
+        locationLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Location: ${exp.location}</span>`;
+        terminalOutput.appendChild(locationLine);
+        
+        // Add achievements
+        exp.achievements.forEach(achievement => {
+            const achievementLine = document.createElement('div');
+            achievementLine.className = 'output-line';
+            achievementLine.innerHTML = `<span class="output">[${timestamp}] [INFO] ${achievement}</span>`;
+            terminalOutput.appendChild(achievementLine);
+        });
+        
+        // Add technologies
+        if (exp.technologies && exp.technologies.length > 0) {
+            const techLine = document.createElement('div');
+            techLine.className = 'output-line';
+            techLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Technologies: ${exp.technologies.join(', ')}</span>`;
+            terminalOutput.appendChild(techLine);
+        }
+        
+        // Add empty line between experiences
+        const emptyLine = document.createElement('div');
+        emptyLine.className = 'output-line';
+        emptyLine.innerHTML = '<span class="output"></span>';
+        terminalOutput.appendChild(emptyLine);
+    });
 }
 
 // Update education section
 function updateEducationSection(config) {
-    // Education content is already in HTML
-    // This could be enhanced to dynamically generate education
+    const educationSection = document.getElementById('education');
+    if (!educationSection) return;
+    
+    const terminalOutput = educationSection.querySelector('.terminal-output');
+    if (!terminalOutput) return;
+    
+    // Clear existing content
+    terminalOutput.innerHTML = '';
+    
+    // Add command line
+    const commandLine = document.createElement('div');
+    commandLine.className = 'command-line';
+    commandLine.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">cat education.log</span>`;
+    terminalOutput.appendChild(commandLine);
+    
+    // Generate education entries with realistic timestamps
+    const now = new Date();
+    const baseTime = now.getTime();
+    
+    // Different timestamps for different education entries
+    const educationOffsets = [
+        -2 * 60 * 60 * 1000,      // 2 hours ago (most recent)
+        -4 * 60 * 60 * 1000       // 4 hours ago
+    ];
+    
+    config.education.forEach((edu, index) => {
+        const offset = educationOffsets[index] || -2 * 60 * 60 * 1000;
+        const educationTime = new Date(baseTime + offset);
+        const timestamp = educationTime.toISOString().replace('T', ' ').substring(0, 19);
+        
+        // Add degree
+        const degreeLine = document.createElement('div');
+        degreeLine.className = 'output-line';
+        degreeLine.innerHTML = `<span class="output">[${timestamp}] [INFO] ${edu.degree}</span>`;
+        terminalOutput.appendChild(degreeLine);
+        
+        // Add university
+        const universityLine = document.createElement('div');
+        universityLine.className = 'output-line';
+        universityLine.innerHTML = `<span class="output">[${timestamp}] [INFO] University: ${edu.university}</span>`;
+        terminalOutput.appendChild(universityLine);
+        
+        // Add duration
+        const durationLine = document.createElement('div');
+        durationLine.className = 'output-line';
+        durationLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Duration: ${edu.duration}</span>`;
+        terminalOutput.appendChild(durationLine);
+        
+        // Add GPA
+        const gpaLine = document.createElement('div');
+        gpaLine.className = 'output-line';
+        gpaLine.innerHTML = `<span class="output">[${timestamp}] [INFO] GPA: ${edu.gpa}</span>`;
+        terminalOutput.appendChild(gpaLine);
+        
+        // Add focus areas
+        const focusLine = document.createElement('div');
+        focusLine.className = 'output-line';
+        focusLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Focus Areas: ${edu.focus}</span>`;
+        terminalOutput.appendChild(focusLine);
+        
+        // Add thesis if exists
+        if (edu.thesis) {
+            const thesisLine = document.createElement('div');
+            thesisLine.className = 'output-line';
+            thesisLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Thesis: "${edu.thesis}"</span>`;
+            terminalOutput.appendChild(thesisLine);
+        }
+        
+        // Add coursework if exists
+        if (edu.coursework && edu.coursework.length > 0) {
+            const courseworkHeaderLine = document.createElement('div');
+            courseworkHeaderLine.className = 'output-line';
+            courseworkHeaderLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Relevant Coursework:</span>`;
+            terminalOutput.appendChild(courseworkHeaderLine);
+            
+            edu.coursework.forEach(course => {
+                const courseLine = document.createElement('div');
+                courseLine.className = 'output-line';
+                courseLine.innerHTML = `<span class="output">[${timestamp}] [INFO] - ${course}</span>`;
+                terminalOutput.appendChild(courseLine);
+            });
+        }
+        
+        // Add achievements if exists
+        if (edu.achievements && edu.achievements.length > 0) {
+            const achievementsHeaderLine = document.createElement('div');
+            achievementsHeaderLine.className = 'output-line';
+            achievementsHeaderLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Achievements:</span>`;
+            terminalOutput.appendChild(achievementsHeaderLine);
+            
+            edu.achievements.forEach(achievement => {
+                const achievementLine = document.createElement('div');
+                achievementLine.className = 'output-line';
+                achievementLine.innerHTML = `<span class="output">[${timestamp}] [INFO] - ${achievement}</span>`;
+                terminalOutput.appendChild(achievementLine);
+            });
+        }
+        
+        // Add completion status
+        const completionLine = document.createElement('div');
+        completionLine.className = 'output-line';
+        completionLine.innerHTML = `<span class="output">[${timestamp}] [DONE] ${edu.degree.toLowerCase()} completed successfully</span>`;
+        terminalOutput.appendChild(completionLine);
+        
+        // Add empty line between education entries
+        const emptyLine = document.createElement('div');
+        emptyLine.className = 'output-line';
+        emptyLine.innerHTML = '<span class="output"></span>';
+        terminalOutput.appendChild(emptyLine);
+    });
 }
 
 // Update projects section

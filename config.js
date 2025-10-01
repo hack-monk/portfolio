@@ -4,26 +4,26 @@
 const PORTFOLIO_CONFIG = {
     // Personal Information
     personal: {
-        name: "Your Name",
-        title: "Your Title",
-        email: "your.email@example.com",
+        name: "Ashutosh Sonar",
+        title: "DevOps | Infra | Security",
+        email: "ashusonar1998@gmail.com",
         phone: "+1 (234) 567-890",
-        location: "Your City, State",
+        location: "Melbourne, Florida",
         website: "https://yourwebsite.com",
-        github: "https://github.com/yourusername",
-        linkedin: "https://linkedin.com/in/yourusername",
+        github: "https://github.com/hack-monk",
+        linkedin: "https://linkedin.com/in/ashutosh-sonar",
         resume: "resume.pdf" // Path to your resume file
     },
 
     // About Section
     about: {
-        description: "I'm a passionate developer with expertise in modern web technologies and cloud infrastructure. I love building scalable solutions and automating processes.",
+        description: " I harden CI/CD and cloud platforms so teams can ship fast, safely. My focus is secure-by-design DevOps: threat modeling in the pipeline, least-privilege IAM, signed/container-scanned releases, and observable, self-healing Kubernetes on AWS.",
         education: {
             degree: "Master's Degree - Computer Science",
-            university: "Your University",
-            year: "2022 - 2024",
-            gpa: "3.8/4.0",
-            focus: "DevOps, Cloud Computing, Distributed Systems"
+            university: "Florida Institute of Technology",
+            year: "2023 - 2025",
+            gpa: "3.25/4.0",
+            focus: "DevOps, Cloud Computing, Distributed Systems, Security"
         }
     },
 
@@ -60,38 +60,71 @@ const PORTFOLIO_CONFIG = {
     // Experience Configuration
     experience: [
         {
-            title: "Your Job Title",
-            company: "Company Name",
-            duration: "2023 - Present",
-            location: "City, State",
+            title: "Graduate Research Assistant and Grader",
+            company: "Florida Institute of Technology",
+            duration: "Aug 2023 - May2025",
+            location: "Melbourne, Florida, USA",
             achievements: [
-                "Achievement 1 - Quantify your impact",
-                "Achievement 2 - Show measurable results",
-                "Achievement 3 - Highlight technical skills"
+                "Embedded threat-modeling gates in CI/CD, improving early vuln detection by ~40%.",
+                "Explored secure deployment patterns for AI/ML (STRIDE, LINDDUN) and pipeline policy checks.",
+                "Graded 100+ advanced SWE/DB projects with security and reliability criteria."
             ],
             technologies: ["Technology 1", "Technology 2", "Technology 3"]
-        }
+        },
+        {
+            title: "Member of Technical Staff (DevOps Engineer)",
+            company: "Coriolis Technology Pvt. Ltd.",
+            duration: "Aug 2020 – Jul 2023",
+            location: "Pune, MH India",
+            achievements: [
+              "Built Jenkins→ArgoCD pipelines; reduced manual release effort by ~50%.",
+              "Ran self-healing K8s for microservices with measured 99.999% availability.",
+              "Provisioned multi-env AWS with Terraform/Ansible; integrated security scans.",
+              "Designed Prometheus/Grafana & CloudWatch dashboards; cut MTTR by ~40%."
+            ],
+            technologies: ["Kubernetes", "AWS", "Terraform", "Ansible", "Prometheus", "Grafana"]
+          },
+          {
+            title: "Intern",
+            company: "Hackedemist",
+            duration: "Jul 2017 – Jun 2019",
+            location: "Pune, India",
+            achievements: [
+              "Built AES-encrypted storage with sub-second integrity checks.",
+              "Integrated MQTT on AWS for IoT; improved packet reliability by ~25%.",
+              "Delivered 10+ sessions on secure coding & network defense to 200+ learners."
+            ],
+            technologies: ["AES", "SHA-256", "AWS", "MQTT"]
+          }
     ],
 
     // Education Configuration
     education: [
         {
             degree: "Master's Degree - Computer Science",
-            university: "Your University",
-            duration: "2022 - 2024",
-            gpa: "3.8/4.0",
+            university: "Florida Institute of Technology",
+            duration: "2023 - 2025",
+            gpa: "3.25/4.0",
             focus: "DevOps, Cloud Computing, Distributed Systems",
-            thesis: "Your Thesis Title",
+            thesis: "Bridging the Gap: Enhancing DevOps Security Through Comprehensive Threat Modeling",
             coursework: [
-                "Advanced Cloud Computing",
-                "Distributed Systems Architecture",
-                "DevOps and CI/CD Practices",
-                "Network Security and Infrastructure"
-            ],
-            achievements: [
-                "Dean's List: Fall 2022, Spring 2023",
-                "Graduate Research Assistant (2022-2024)",
-                "Published 2 papers in peer-reviewed journals"
+                "Cybersecurity", 
+                "Computer Networks", 
+                "Advanced Software Engineering",
+                "Cryptography"
+            ]
+        },
+        {
+            degree: "Bachelor's Degree - Computer Engineering",
+            university: "University of Pune",
+            duration: "2016 - 2020",
+            gpa: "3.69/4.0",
+            focus: "Software Engineering, Systems",
+            thesis: "Blockchain : Concept and Application Domains",
+            coursework: [
+                "Data Structures", 
+                "Cyber Security", 
+                "Software Engineering"
             ]
         }
     ],
@@ -115,7 +148,7 @@ const PORTFOLIO_CONFIG = {
 
     // Terminal Configuration
     terminal: {
-        prompt: "yourname@portfolio:~$",
+        prompt: "ashutosh@portfolio:~$",
         welcomeMessage: [
             "Welcome to the Interactive Portfolio Terminal!",
             "Type 'help' to see available commands.",
@@ -139,8 +172,8 @@ const PORTFOLIO_CONFIG = {
 
     // SEO Configuration
     seo: {
-        title: "Your Name - Your Title",
-        description: "Your Name - Your Title | Brief description of your expertise and skills",
+        title: "Ashutosh Sonar - DevOps | Infra | Security",
+        description: "Ashutosh Sonar - DevOps | Infra | Security | Brief description of your expertise and skills",
         keywords: "Your, Keywords, Here, DevOps, Cloud, Technologies",
         author: "Your Name",
         url: "https://yourwebsite.com",
