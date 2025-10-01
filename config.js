@@ -120,7 +120,7 @@ const PORTFOLIO_CONFIG = {
             duration: "2016 - 2020",
             gpa: "3.69/4.0",
             focus: "Software Engineering, Systems",
-            thesis: "Blockchain : Concept and Application Domains",
+            thesis: "",
             coursework: [
                 "Data Structures", 
                 "Cyber Security", 
@@ -132,18 +132,45 @@ const PORTFOLIO_CONFIG = {
     // Projects Configuration
     projects: [
         {
-            name: "project-name",
-            title: "Project Title",
-            description: "Brief description of your project and its impact",
-            technologies: ["Technology 1", "Technology 2", "Technology 3"],
-            github: "https://github.com/yourusername/project-name",
-            demo: "https://demo.yourwebsite.com/project-name",
-            metrics: {
-                deploymentTime: "5 minutes",
-                clusterSize: "3 master + 5 worker nodes",
-                costReduction: "40% savings"
-            }
-        }
+            name: "threat-model-recommender",
+            title: "Threat Model Recommender",
+            description:
+              "CLI that recommends hybrid threat models for AI/ML systems; plugs into CI to guide secure architecture choices and PR checks.",
+            technologies: ["Python", "CI/CD", "STRIDE", "LINDDUN", "AWS EC2"],
+            github: "https://github.com/hack-monk/ThreatModelRecommeder.git",
+            demo: "",
+            metrics: { riskReduction: "≈65% fewer undetected risks in pilot assessments" }
+          },
+          {
+            name: "encrypted-video-tamper-detection",
+            title: "Encrypted Video Tampering & Localization (Cloud)",
+            description:
+              "AES + SHA-256 based integrity verification and tamper localization with serverless storage for low-cost scale.",
+            technologies: ["AES", "SHA-256", "AWS Lambda", "S3"],
+            github: "https://github.com/hack-monk/encrypted-video-tampering-detection-and-localization-via-cloud.git",
+            demo: "",
+            metrics: { costReduction: "≈25% cloud cost reduction", latency: "near real-time verification" }
+          },
+          {
+            name: "mysh",
+            title: "Custom Python Shell (mysh)",
+            description:
+              "A feature-complete Python shell with pipelines, completion, and persistent history — built to understand shell internals and harden CLI tooling.",
+            technologies: ["Python"],
+            github: "https://github.com/hack-monk/mysh.git",
+            demo: "",
+            metrics: { usability: "Improved developer workflow for repeatable ops" }
+          },
+          {
+            name: "sdn-ids-ml",
+            title: "IDS for Software-Defined Networks (ML)",
+            description:
+              "ML-powered intrusion detection for SDN. Simulated large-scale DDoS in Mininet/Ryu; achieved high detection accuracy.",
+            technologies: ["Mininet", "Ryu", "ML"],
+            github: "",
+            demo: "",
+            metrics: { accuracy: "≈95% accuracy; ~30% reliability improvement" }
+          }
     ],
 
     // Terminal Configuration

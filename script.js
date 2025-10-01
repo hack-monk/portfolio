@@ -375,8 +375,151 @@ function updateEducationSection(config) {
 
 // Update projects section
 function updateProjectsSection(config) {
-    // Projects are already structured in HTML
-    // This could be enhanced to dynamically generate projects
+    const projectsSection = document.getElementById('projects');
+    if (!projectsSection) return;
+    
+    const terminalOutput = projectsSection.querySelector('.terminal-output');
+    if (!terminalOutput) return;
+    
+    // Clear existing content
+    terminalOutput.innerHTML = '';
+    
+    // Add ls command
+    const lsCommand = document.createElement('div');
+    lsCommand.className = 'command-line';
+    lsCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">ls -la projects/</span>`;
+    terminalOutput.appendChild(lsCommand);
+    
+    // Add total line
+    const totalLine = document.createElement('div');
+    totalLine.className = 'output-line';
+    totalLine.innerHTML = '<span class="output">total 12</span>';
+    terminalOutput.appendChild(totalLine);
+    
+    // Generate project entries
+    config.projects.forEach(project => {
+        const projectLine = document.createElement('div');
+        projectLine.className = 'output-line';
+        projectLine.innerHTML = `<span class="output">drwxr-xr-x 3 ashutosh ashutosh 4096 Jan 15 10:30 <a href="#${project.name}" class="link">${project.name}/</a></span>`;
+        terminalOutput.appendChild(projectLine);
+    });
+    
+    // Add project details
+    config.projects.forEach(project => {
+        // Add cat command for each project
+        const catCommand = document.createElement('div');
+        catCommand.className = 'command-line';
+        catCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">cat projects/${project.name}/README.md</span>`;
+        terminalOutput.appendChild(catCommand);
+        
+        // Add project title
+        const titleLine = document.createElement('div');
+        titleLine.className = 'output-line';
+        titleLine.innerHTML = `<span class="output"># ${project.title}</span>`;
+        terminalOutput.appendChild(titleLine);
+        
+        // Add project description
+        const descLine = document.createElement('div');
+        descLine.className = 'output-line';
+        descLine.innerHTML = `<span class="output">${project.description}</span>`;
+        terminalOutput.appendChild(descLine);
+        
+        // Add technologies
+        const techLine = document.createElement('div');
+        techLine.className = 'output-line';
+        techLine.innerHTML = `<span class="output">Tech Stack: ${project.technologies.join(', ')}</span>`;
+        terminalOutput.appendChild(techLine);
+        
+        // Add metrics if available
+        if (project.metrics) {
+            const metricsCommand = document.createElement('div');
+            metricsCommand.className = 'command-line';
+            metricsCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">metrics</span>`;
+            terminalOutput.appendChild(metricsCommand);
+            
+            // Collect all metrics data
+            const metricsData = [];
+            if (project.metrics.riskReduction) {
+                metricsData.push({ metric: 'Risk Reduction', value: project.metrics.riskReduction });
+            }
+            if (project.metrics.costReduction) {
+                metricsData.push({ metric: 'Cost Reduction', value: project.metrics.costReduction });
+            }
+            if (project.metrics.latency) {
+                metricsData.push({ metric: 'Latency', value: project.metrics.latency });
+            }
+            if (project.metrics.accuracy) {
+                metricsData.push({ metric: 'Accuracy', value: project.metrics.accuracy });
+            }
+            if (project.metrics.usability) {
+                metricsData.push({ metric: 'Usability', value: project.metrics.usability });
+            }
+            
+            if (metricsData.length > 0) {
+                // Calculate column widths based on content
+                const maxMetricLength = Math.max(...metricsData.map(m => m.metric.length));
+                const maxValueLength = Math.max(...metricsData.map(m => m.value.length));
+                
+                // Ensure minimum widths and add padding
+                const metricWidth = Math.max(maxMetricLength + 4, 16);
+                const valueWidth = Math.max(maxValueLength + 4, 30);
+                
+                // Create top border
+                const topBorder = document.createElement('div');
+                topBorder.className = 'output-line';
+                topBorder.innerHTML = `<span class="output">┌${'─'.repeat(metricWidth)}┬${'─'.repeat(valueWidth)}┐</span>`;
+                terminalOutput.appendChild(topBorder);
+                
+                // Add header row
+                const headerRow = document.createElement('div');
+                headerRow.className = 'output-line';
+                headerRow.innerHTML = `<span class="output">│ ${'Metric'.padEnd(metricWidth - 2)} │ ${'Value'.padEnd(valueWidth - 2)} │</span>`;
+                terminalOutput.appendChild(headerRow);
+                
+                // Add separator
+                const separator = document.createElement('div');
+                separator.className = 'output-line';
+                separator.innerHTML = `<span class="output">├${'─'.repeat(metricWidth)}┼${'─'.repeat(valueWidth)}┤</span>`;
+                terminalOutput.appendChild(separator);
+                
+                // Add data rows
+                metricsData.forEach(data => {
+                    const dataRow = document.createElement('div');
+                    dataRow.className = 'output-line';
+                    dataRow.innerHTML = `<span class="output">│ ${data.metric.padEnd(metricWidth - 2)} │ ${data.value.padEnd(valueWidth - 2)} │</span>`;
+                    terminalOutput.appendChild(dataRow);
+                });
+                
+                // Add closing border
+                const closing = document.createElement('div');
+                closing.className = 'output-line';
+                closing.innerHTML = `<span class="output">└${'─'.repeat(metricWidth)}┴${'─'.repeat(valueWidth)}┘</span>`;
+                terminalOutput.appendChild(closing);
+            }
+        }
+        
+        // Add GitHub link if available
+        if (project.github) {
+            const gitLine = document.createElement('div');
+            gitLine.className = 'output-line';
+            gitLine.innerHTML = `<span class="output">> <a href="${project.github}" class="link" target="_blank">git clone ${project.github}</a> <button class="copy-btn" aria-label="Copy git clone command" data-copy="git clone ${project.github}">[ copy ]</button></span>`;
+            terminalOutput.appendChild(gitLine);
+        }
+        
+        // Add demo link if available
+        if (project.demo) {
+            const demoLine = document.createElement('div');
+            demoLine.className = 'output-line';
+            demoLine.innerHTML = `<span class="output">> <a href="${project.demo}" class="link" target="_blank">open ${project.demo}</a> <button class="copy-btn" aria-label="Copy demo URL" data-copy="${project.demo}">[ copy ]</button></span>`;
+            terminalOutput.appendChild(demoLine);
+        }
+        
+        // Add empty line between projects
+        const emptyLine = document.createElement('div');
+        emptyLine.className = 'output-line';
+        emptyLine.innerHTML = '<span class="output"></span>';
+        terminalOutput.appendChild(emptyLine);
+    });
 }
 
 // Update contact section
@@ -609,13 +752,24 @@ function initContactForm() {
 // Keyboard shortcuts
 function initKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
+        // Don't trigger shortcuts when typing in input fields or any focusable element
+        const isInputField = e.target.tagName === 'INPUT' || 
+                            e.target.tagName === 'TEXTAREA' || 
+                            e.target.contentEditable === 'true' ||
+                            e.target.classList.contains('terminal-input') ||
+                            e.target.classList.contains('terminal-textarea') ||
+                            e.target.isContentEditable ||
+                            e.target.getAttribute('contenteditable') === 'true';
         
-        // 'm' to toggle metrics
-        if (e.key === 'm' && !e.ctrlKey && !e.metaKey) {
-            e.preventDefault();
-            const metricsDashboard = document.getElementById('metrics-dashboard');
-            if (metricsDashboard) {
-                metricsDashboard.classList.toggle('active');
+        // Only trigger shortcuts when not in any input field
+        if (!isInputField) {
+            // 'm' to toggle metrics
+            if (e.key === 'm' && !e.ctrlKey && !e.metaKey) {
+                e.preventDefault();
+                const metricsDashboard = document.getElementById('metrics-dashboard');
+                if (metricsDashboard) {
+                    metricsDashboard.classList.toggle('active');
+                }
             }
         }
         
