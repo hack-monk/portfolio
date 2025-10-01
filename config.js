@@ -9,10 +9,10 @@ const PORTFOLIO_CONFIG = {
         email: "ashusonar1998@gmail.com",
         phone: "+1 (234) 567-890",
         location: "Melbourne, Florida",
-        website: "https://yourwebsite.com",
+        website: "https://ashutoshsonar.dev",
         github: "https://github.com/hack-monk",
         linkedin: "https://linkedin.com/in/ashutosh-sonar",
-        resume: "resume.pdf" // Path to your resume file
+        resume: "Ashutosh_Sonar_DevOps_Engineer_Resume.pdf" // Path to your resume file
     },
 
     // About Section
@@ -31,28 +31,77 @@ const PORTFOLIO_CONFIG = {
     skills: {
         categories: [
             {
-                name: "Programming",
-                items: ["Python", "JavaScript", "Go", "Bash"]
+                name: "Programming_Languages",
+                items: [
+                    { name: "Python", tip: "Primary Coding Language" },
+                    { name: "Shell/Bash Scripting", tip: "Release/rollback scripts, health probes, log pipelines" },
+                    { name: "SQL", tip: "MySQL queries & migrations; audit logs & reporting" },
+                    { name: "Powershell", tip: "Windows hardening (CIS), IIS deploys, event log shipping" },
+                    { name: "Go", tip: "Currently learning" }
+                ]
             },
             {
-                name: "Cloud",
-                items: ["AWS", "Azure", "GCP"]
+                name: "DevOps_Tools",
+                items: [
+                    { name: "Git", tip: "Branching, PR reviews, signed commits, release tagging" },
+                    { name: "Jenkins", tip: "Pipelines-as-code; blue/green deploys; parallel stages" },
+                    { name: "ArgoCD", tip: "GitOps sync waves; health checks; RBAC; rollbacks" },
+                    { name: "Docker", tip: "Multi-stage builds; minimal images; SBOM; signed images" },
+                    { name: "Kubernetes", tip: "EKS; HPA; Ingress/ALB; canary & rollbacks" },
+                    { name: "Ansible", tip: "Idempotent playbooks; CIS hardening; patching; Vault secrets" },
+                    { name: "Terraform", tip: "Modules; workspaces; remote state; IAM least-privilege" }
+                ]
             },
             {
-                name: "Containers",
-                items: ["Docker", "Kubernetes", "Helm"]
+                name: "Cloud_and_Infra",
+                items: [
+                    { name: "AWS(EC2, S3, IAM, RDS, Lambda, EKS, Cloudwatch)", tip: "AWS landing zone IaC; VPC/IAM least-privilege; EKS+ALB; KMS/CloudWatch/RDS backups" },
+                    { name: "Linux (Ubuntu, CentOS, RedHat)", tip: "CIS hardening; systemd/networking; SELinux/AppArmor; patch & log automation" },
+                    { name: "Windows", tip: "Windows Server ops; PowerShell DSC; Event Log forwarding" },
+                    { name: "VMWare", tip: "vSphere/ESXi provisioning; templates & snapshots" },
+                    { name: "KVM Hypervisor", tip: "KVM/QEMU + libvirt; cloud-init images; virtio; bridged/NAT networking" }
+                ]
             },
             {
-                name: "IaC",
-                items: ["Terraform", "Ansible", "CloudFormation"]
+                name: "Monitoring_and_Logging",
+                items: [
+                    { name: "Prometheus", tip: "Exporters, recording rules, SLI/SLO alerting" },
+                    { name: "ELK Stack", tip: "Logstash pipelines, JSON logs, fast correlation/search" },
+                    { name: "Grafana", tip: "SLO dashboards, unified alerts, Prometheus/CloudWatch" }
+                ]
             },
             {
-                name: "CI-CD",
-                items: ["Jenkins", "GitLab CI", "GitHub Actions"]
+                name: "Database_and_Messaging",
+                items: [
+                    { name: "MySQL", tip: "InnoDB, indexes, slow-query tuning" },
+                    { name: "MongoDB", tip: "Schema design, replica sets, sharding" },
+                    { name: "Cassandra", tip: "CQL, wide rows, tunable consistency" },
+                    { name: "Couchbase", tip: "Buckets, N1QL, XDCR" },
+                    { name: "Neo4j", tip: "Cypher, graph modeling, traversals" },
+                    { name: "Redis", tip: "Caching, pub/sub, Lua scripts" },
+                    { name: "Apache Kafka", tip: "Topics, partitions, consumer groups" }
+                ]
             },
             {
                 name: "Networking",
-                items: ["TCP/IP", "Load Balancing", "Security"]
+                items: [
+                    { name: "TCP/IP", tip: "Network troubleshooting, TCP/IP protocols, routing" },
+                    { name: "Load Balancing", tip: "Configured load balancers, handled 1M+ requests/day" },
+                    { name: "Security", tip: "Security groups, WAF, SSL/TLS certificates" }
+                ]
+            },
+            {
+                name: "Concepts",
+                items: [
+                    { name: "IaC", tip: "Terraform modules, remote state, drift" },
+                    { name: "Site Reliability Engineering", tip: "SLIs/SLOs, error budgets, runbooks" },
+                    { name: "Zero-Downtime Deployment", tip: "Blue/green, canary, auto-rollback" },
+                    { name: "Secure DevOps", tip: "Policy-gated CI/CD, SAST/SBOM" },
+                    { name: "Threat Modeling", tip: "STRIDE/LINDDUN, CI-integrated" },
+                    { name: "Virtualization", tip: "KVM/VMware, templates, snapshots" },
+                    { name: "Agile", tip: "Scrum/Kanban, iterative delivery" },
+                    { name: "Object Oriented Programming", tip: "SOLID, clean abstractions" }
+                ]
             }
         ]
     },
@@ -200,18 +249,18 @@ const PORTFOLIO_CONFIG = {
     // SEO Configuration
     seo: {
         title: "Ashutosh Sonar - DevOps | Infra | Security",
-        description: "Ashutosh Sonar - DevOps | Infra | Security | Brief description of your expertise and skills",
-        keywords: "Your, Keywords, Here, DevOps, Cloud, Technologies",
-        author: "Your Name",
-        url: "https://yourwebsite.com",
-        image: "https://yourwebsite.com/og.png"
+        description: "Ashutosh Sonar - DevOps | Infra | Security",
+        keywords: "DevOps, Cloud, Security, CI/CD, Kubernetes, AWS, Terraform, Ansible, Prometheus, Grafana",
+        author: "Ashutosh Sonar",
+        url: "https://ashutoshsonar.dev"
     },
 
     // Social Media
     social: {
         github: "hack-monk",
         linkedin: "ashutosh-sonar",
-        twitter: "yourusername"
+        twitter: "",
+        substack: "hackmonk"
     },
 
     // Contact Form (Formspree)

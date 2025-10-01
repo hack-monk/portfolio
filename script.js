@@ -174,8 +174,68 @@ function updateAboutSection(config) {
 
 // Update skills section
 function updateSkillsSection(config) {
-    // Skills are already structured in HTML
-    // This could be enhanced to dynamically generate skills
+    const skillsSection = document.getElementById('skills');
+    if (!skillsSection) return;
+    
+    const terminalOutput = skillsSection.querySelector('.terminal-output');
+    if (!terminalOutput) return;
+    
+    // Clear existing content
+    terminalOutput.innerHTML = '';
+    
+    // Add ls command
+    const lsCommand = document.createElement('div');
+    lsCommand.className = 'command-line';
+    lsCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">ls skills/</span>`;
+    terminalOutput.appendChild(lsCommand);
+    
+    // Generate skills categories list
+    const categoriesList = config.skills.categories.map(cat => `${cat.name}/`).join('  ');
+    const categoriesLine = document.createElement('div');
+    categoriesLine.className = 'output-line';
+    categoriesLine.innerHTML = `<span class="output">${categoriesList}</span>`;
+    terminalOutput.appendChild(categoriesLine);
+    
+    // Add tree command
+    const treeCommand = document.createElement('div');
+    treeCommand.className = 'command-line';
+    treeCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">tree skills/</span>`;
+    terminalOutput.appendChild(treeCommand);
+    
+    // Add skills root
+    const skillsRoot = document.createElement('div');
+    skillsRoot.className = 'output-line';
+    skillsRoot.innerHTML = '<span class="output">skills/</span>';
+    terminalOutput.appendChild(skillsRoot);
+    
+    // Generate skills tree structure
+    config.skills.categories.forEach((category, categoryIndex) => {
+        const isLastCategory = categoryIndex === config.skills.categories.length - 1;
+        const categoryPrefix = isLastCategory ? '└──' : '├──';
+        
+        // Add category line
+        const categoryLine = document.createElement('div');
+        categoryLine.className = 'output-line';
+        categoryLine.innerHTML = `<span class="output">${categoryPrefix} ${category.name}/</span>`;
+        terminalOutput.appendChild(categoryLine);
+        
+        // Add skills in category
+        category.items.forEach((skill, skillIndex) => {
+            const isLastSkill = skillIndex === category.items.length - 1;
+            const skillPrefix = isLastSkill ? '    └──' : '    ├──';
+            
+            const skillLine = document.createElement('div');
+            skillLine.className = 'output-line';
+            
+            // Handle both string and object skill formats
+            if (typeof skill === 'string') {
+                skillLine.innerHTML = `<span class="output">${skillPrefix} <span class="skill-item" data-tip="Click for more details">${skill}</span></span>`;
+            } else {
+                skillLine.innerHTML = `<span class="output">${skillPrefix} <span class="skill-item" data-tip="${skill.tip}">${skill.name}</span></span>`;
+            }
+            terminalOutput.appendChild(skillLine);
+        });
+    });
 }
 
 // Update experience section
