@@ -209,14 +209,14 @@ const PORTFOLIO_CONFIG = {
 
     // Social Media
     social: {
-        github: "yourusername",
-        linkedin: "yourusername",
+        github: "hack-monk",
+        linkedin: "ashutosh-sonar",
         twitter: "yourusername"
     },
 
     // Contact Form (Formspree)
     contact: {
-        formspreeId: "YOUR_FORMSPREE_ID", // Get this from formspree.io
+        formspreeId: "xwprojje", // Get this from formspree.io
         honeypot: true // Enable honeypot for spam protection
     },
 

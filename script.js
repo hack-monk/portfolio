@@ -714,14 +714,23 @@ function initContactForm() {
     const form = document.getElementById('contact-form');
     
     if (form) {
+        // Handle Ctrl+Enter in textarea
+        const textarea = form.querySelector('.terminal-textarea');
+        if (textarea) {
+            textarea.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    form.dispatchEvent(new Event('submit'));
+                }
+            });
+        }
+        
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const formData = new FormData(form);
-            const submitButton = form.querySelector('.terminal-submit');
             
             form.classList.add('loading');
-            submitButton.textContent = 'Sending...';
             
             try {
                 const response = await fetch(form.action, {
