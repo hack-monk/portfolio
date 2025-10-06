@@ -7,10 +7,12 @@ A customizable, terminal-themed portfolio template that anyone can use to showca
 - **Terminal Aesthetic**: Clean, professional terminal-inspired design with VS Code dark theme
 - **Dynamic Content**: All content generated from `config.js` - no HTML editing required
 - **Real-time Timestamps**: Live timestamps for file listings and experience entries
+- **Typing Animations**: Smooth scroll-triggered animations for terminal sections
+- **Individual Log Files**: Experience and education sections use separate log files with `ls -la` format
 - **Fully Customizable**: Easy configuration through `config.js`
 - **Responsive Design**: Works on all devices
 - **SEO Optimized**: Built-in SEO meta tags and structured data
-- **Accessibility**: WCAG compliant with keyboard navigation
+- **Accessibility**: WCAG compliant with keyboard navigation and motion preferences
 - **Performance**: Fast loading with lazy loading and optimizations
 - **Contact Form**: Integrated with Formspree for easy form handling
 - **Interactive Elements**: Copy buttons, tooltips, and keyboard shortcuts
@@ -263,10 +265,23 @@ The template uses dynamic content generation, so you only need to modify `config
 
 ## 🔧 Dynamic Content Features
 
+### Experience & Education Sections
+- **Individual Log Files**: Each job/degree has its own log file (e.g., `Graduate Research Assistant and Grader.log`)
+- **ls -la Format**: Professional file listings with permissions, sizes, and timestamps
+- **Sequential Display**: Commands and outputs appear in logical order
+- **Status Messages**: Proper completion messages (e.g., "Internship completed successfully")
+
+### Typing Animations
+- **Scroll-triggered**: Animations start when sections come into view
+- **Sequential**: Lines animate in order with smooth transitions
+- **Accessibility**: Respects `prefers-reduced-motion` user preference
+- **Performance**: Uses Intersection Observer for efficient animation
+
 ### Real-time Timestamps
 - File listings show current timestamps
 - Experience entries have realistic timestamps
 - Education entries display proper time formatting
+- Hero section uses `cat intro.txt` command
 
 ### Metrics Tables
 - Professional ASCII-style tables
