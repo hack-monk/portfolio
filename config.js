@@ -118,7 +118,7 @@ const PORTFOLIO_CONFIG = {
                 "Explored secure deployment patterns for AI/ML (STRIDE, LINDDUN) and pipeline policy checks.",
                 "Graded 100+ advanced SWE/DB projects with security and reliability criteria."
             ],
-            technologies: ["Technology 1", "Technology 2", "Technology 3"]
+            technologies: ["DevOps", "Cyber Security", "Database Management", "Advanced Software Engineering"]
         },
         {
             title: "Member of Technical Staff (DevOps Engineer)",
@@ -235,7 +235,7 @@ const PORTFOLIO_CONFIG = {
                 output: [
                     "Available commands:",
                     "  whoami",
-                    "  cat about.txt",
+                    "  cat intro.txt",
                     "  stats",
                     "  ls            | ls -la       | ls skills/",
                     "  tree skills/  | cat experience.log",
