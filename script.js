@@ -58,6 +58,12 @@ function loadConfiguration() {
     
     // Initialize real-time timestamps
     initRealTimeTimestamps();
+    
+    // Initialize hero easter egg
+    initHeroEasterEgg();
+    
+    // Initialize section easter eggs
+    initSectionEasterEggs();
 }
 
 // Initialize real-time timestamps for file listings
@@ -202,45 +208,41 @@ function updateSkillsSection(config) {
     categoriesLine.innerHTML = `<span class="output">${categoriesList}</span>`;
     terminalOutput.appendChild(categoriesLine);
     
-    // Add tree command
-    const treeCommand = document.createElement('div');
-    treeCommand.className = 'command-line';
-    treeCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">tree skills/</span>`;
-    terminalOutput.appendChild(treeCommand);
+    // Add find command for a more compact display
+    const findCommand = document.createElement('div');
+    findCommand.className = 'command-line';
+    findCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">find skills/ -name "*.skill" -exec basename {} .skill \\;</span>`;
+    terminalOutput.appendChild(findCommand);
     
-    // Add skills root
-    const skillsRoot = document.createElement('div');
-    skillsRoot.className = 'output-line';
-    skillsRoot.innerHTML = '<span class="output">skills/</span>';
-    terminalOutput.appendChild(skillsRoot);
-    
-    // Generate skills tree structure
+    // Generate compact skills list
     config.skills.categories.forEach((category, categoryIndex) => {
-        const isLastCategory = categoryIndex === config.skills.categories.length - 1;
-        const categoryPrefix = isLastCategory ? '└──' : '├──';
+        // Add category header
+        const categoryHeader = document.createElement('div');
+        categoryHeader.className = 'output-line';
+        categoryHeader.innerHTML = `<span class="output"># ${category.name}</span>`;
+        terminalOutput.appendChild(categoryHeader);
         
-        // Add category line
-        const categoryLine = document.createElement('div');
-        categoryLine.className = 'output-line';
-        categoryLine.innerHTML = `<span class="output">${categoryPrefix} ${category.name}/</span>`;
-        terminalOutput.appendChild(categoryLine);
-        
-        // Add skills in category
-        category.items.forEach((skill, skillIndex) => {
-            const isLastSkill = skillIndex === category.items.length - 1;
-            const skillPrefix = isLastSkill ? '    └──' : '    ├──';
-            
-            const skillLine = document.createElement('div');
-            skillLine.className = 'output-line';
-            
-            // Handle both string and object skill formats
+        // Add skills in category as a compact list
+        const skillsList = category.items.map(skill => {
             if (typeof skill === 'string') {
-                skillLine.innerHTML = `<span class="output">${skillPrefix} <span class="skill-item" data-tip="Click for more details">${skill}</span></span>`;
+                return `<span class="skill-item" data-tip="Click for more details">${skill}</span>`;
             } else {
-                skillLine.innerHTML = `<span class="output">${skillPrefix} <span class="skill-item" data-tip="${skill.tip}">${skill.name}</span></span>`;
+                return `<span class="skill-item" data-tip="${skill.tip}">${skill.name}</span>`;
             }
-            terminalOutput.appendChild(skillLine);
-        });
+        }).join(' • ');
+        
+        const skillsLine = document.createElement('div');
+        skillsLine.className = 'output-line';
+        skillsLine.innerHTML = `<span class="output">  ${skillsList}</span>`;
+        terminalOutput.appendChild(skillsLine);
+        
+        // Add separator if not last category
+        if (categoryIndex < config.skills.categories.length - 1) {
+            const separator = document.createElement('div');
+            separator.className = 'output-line';
+            separator.innerHTML = '<span class="output"></span>';
+            terminalOutput.appendChild(separator);
+        }
     });
 }
 
@@ -531,6 +533,10 @@ function updateProjectsSection(config) {
             }
             
             if (metricsData.length > 0) {
+                // Create metrics table container
+                const metricsContainer = document.createElement('div');
+                metricsContainer.className = 'metrics-table';
+                
                 // Calculate column widths based on content
                 const maxMetricLength = Math.max(...metricsData.map(m => m.metric.length));
                 const maxValueLength = Math.max(...metricsData.map(m => m.value.length));
@@ -543,33 +549,38 @@ function updateProjectsSection(config) {
                 const topBorder = document.createElement('div');
                 topBorder.className = 'output-line';
                 topBorder.innerHTML = `<span class="output">┌${'─'.repeat(metricWidth)}┬${'─'.repeat(valueWidth)}┐</span>`;
-                terminalOutput.appendChild(topBorder);
+                metricsContainer.appendChild(topBorder);
                 
                 // Add header row
                 const headerRow = document.createElement('div');
                 headerRow.className = 'output-line';
-                headerRow.innerHTML = `<span class="output">│ ${'Metric'.padEnd(metricWidth - 2)} │ ${'Value'.padEnd(valueWidth - 2)} │</span>`;
-                terminalOutput.appendChild(headerRow);
+                headerRow.innerHTML = `<span class="output">│ Metric${' '.repeat(metricWidth - 8)} │ Value${' '.repeat(valueWidth - 6)} │</span>`;
+                metricsContainer.appendChild(headerRow);
                 
                 // Add separator
                 const separator = document.createElement('div');
                 separator.className = 'output-line';
                 separator.innerHTML = `<span class="output">├${'─'.repeat(metricWidth)}┼${'─'.repeat(valueWidth)}┤</span>`;
-                terminalOutput.appendChild(separator);
+                metricsContainer.appendChild(separator);
                 
                 // Add data rows
                 metricsData.forEach(data => {
                     const dataRow = document.createElement('div');
                     dataRow.className = 'output-line';
-                    dataRow.innerHTML = `<span class="output">│ ${data.metric.padEnd(metricWidth - 2)} │ ${data.value.padEnd(valueWidth - 2)} │</span>`;
-                    terminalOutput.appendChild(dataRow);
+                    const metricPadding = metricWidth - 2 - data.metric.length;
+                    const valuePadding = valueWidth - 2 - data.value.length;
+                    dataRow.innerHTML = `<span class="output">│ ${data.metric}${' '.repeat(metricPadding)} │ ${data.value}${' '.repeat(valuePadding)} │</span>`;
+                    metricsContainer.appendChild(dataRow);
                 });
                 
                 // Add closing border
                 const closing = document.createElement('div');
                 closing.className = 'output-line';
                 closing.innerHTML = `<span class="output">└${'─'.repeat(metricWidth)}┴${'─'.repeat(valueWidth)}┘</span>`;
-                terminalOutput.appendChild(closing);
+                metricsContainer.appendChild(closing);
+                
+                // Append the entire metrics container to terminal output
+                terminalOutput.appendChild(metricsContainer);
             }
         }
         
@@ -577,7 +588,9 @@ function updateProjectsSection(config) {
         if (project.github) {
             const gitLine = document.createElement('div');
             gitLine.className = 'output-line';
-            gitLine.innerHTML = `<span class="output">> <a href="${project.github}" class="link" target="_blank">git clone ${project.github}</a> <button class="copy-btn" aria-label="Copy git clone command" data-copy="git clone ${project.github}">[ copy ]</button></span>`;
+            // Extract just the URL from "Git Link: https://..." format
+            const githubUrl = project.github.replace('Git Link: ', '');
+            gitLine.innerHTML = `<span class="output">> <span style="color: white;">Git Link: </span><a href="${githubUrl}" class="link" target="_blank">${githubUrl}</a> <button class="copy-btn" aria-label="Copy GitHub link" data-copy="${githubUrl}">[ copy ]</button></span>`;
             terminalOutput.appendChild(gitLine);
         }
         
@@ -947,6 +960,264 @@ startCursorBlink();
 // Console logging
 console.log('%cashutosh@portfolio:~$ Welcome to the terminal portfolio!', 'color: #00ff00; font-family: monospace;');
 console.log('%cPress "m" for metrics dashboard', 'color: #cccccc; font-family: monospace;');
+
+// Attach input listeners to a specific input element
+function attachInputListeners(inputElement) {
+    if (!inputElement) return;
+    
+    const terminalOutput = inputElement.closest('.terminal-output');
+    if (!terminalOutput) return;
+    
+    // Create and position cursor
+    const cursor = document.createElement('span');
+    cursor.textContent = '_';
+    cursor.style.position = 'absolute';
+    cursor.style.left = '0ch';
+    cursor.style.top = '0';
+    cursor.style.color = '#eab308';
+    cursor.style.animation = 'blink 1s infinite';
+    cursor.style.pointerEvents = 'none';
+    cursor.style.zIndex = '1';
+    inputElement.parentElement.style.position = 'relative';
+    inputElement.parentElement.appendChild(cursor);
+    
+    // Handle input changes (cursor movement)
+    inputElement.addEventListener('input', (e) => {
+        cursor.style.left = inputElement.value.length + 'ch';
+    });
+    
+    // Handle keydown events
+    inputElement.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const command = inputElement.value.trim().toLowerCase();
+            
+            // Add the command to output (except for exit command)
+            if (command !== 'exit') {
+                const commandLine = document.createElement('div');
+                commandLine.className = 'command-line';
+                commandLine.innerHTML = `<span class="prompt">ashutosh@portfolio:~$</span> <span class="command">${command}</span>`;
+                terminalOutput.appendChild(commandLine);
+            }
+            
+            // Process command
+            let output = '';
+            switch (command) {
+                case 'help':
+                    output = `Available commands:
+  about       - View about information
+  skills      - View technical skills
+  experience  - View work experience
+  education   - View education background
+  projects    - View projects portfolio
+  contact     - Get in touch
+  exit        - Close terminal`;
+                    break;
+                case 'about':
+                    output = 'Redirecting to about section...';
+                    setTimeout(() => {
+                        window.location.hash = '#about';
+                        // Also try scrollIntoView as backup
+                        const section = document.getElementById('about');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 500);
+                    break;
+                case 'skills':
+                    output = 'Redirecting to skills section...';
+                    setTimeout(() => {
+                        window.location.hash = '#skills';
+                        const section = document.getElementById('skills');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 500);
+                    break;
+                case 'experience':
+                    output = 'Redirecting to experience section...';
+                    setTimeout(() => {
+                        window.location.hash = '#experience';
+                        const section = document.getElementById('experience');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 500);
+                    break;
+                case 'education':
+                    output = 'Redirecting to education section...';
+                    setTimeout(() => {
+                        window.location.hash = '#education';
+                        const section = document.getElementById('education');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 500);
+                    break;
+                case 'projects':
+                    output = 'Redirecting to projects section...';
+                    setTimeout(() => {
+                        window.location.hash = '#projects';
+                        const section = document.getElementById('projects');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 500);
+                    break;
+                case 'contact':
+                    output = 'Redirecting to contact section...';
+                    setTimeout(() => {
+                        window.location.hash = '#contact';
+                        const section = document.getElementById('contact');
+                        if (section) {
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }, 500);
+                    break;
+                case 'exit':
+                    output = 'Connection closed. Thank you for visiting.';
+                    // Clear the terminal after showing the message
+                    setTimeout(() => {
+                        // Hide all sections
+                        const allSections = document.querySelectorAll('section');
+                        allSections.forEach(section => {
+                            section.style.display = 'none';
+                        });
+                        // Hide navigation
+                        const nav = document.querySelector('nav');
+                        if (nav) {
+                            nav.style.display = 'none';
+                        }
+                        // Create a full-screen goodbye message
+                        const body = document.body;
+                        body.innerHTML = `
+                            <div style="
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                height: 100vh;
+                                background: #1e1e1e;
+                                color: #cccccc;
+                                font-family: 'Fira Code', 'Courier New', monospace;
+                                text-align: center;
+                            ">
+                                <div style="font-size: 1.2rem; margin-bottom: 1rem;">Connection closed.</div>
+                                <div style="font-size: 1rem;">Thank you for visiting.</div>
+                            </div>
+                        `;
+                    }, 1500);
+                    // Don't create new prompt for exit command
+                    return;
+                default:
+                    if (command) {
+                        output = `Command not found: ${command}. Type 'help' for available commands.`;
+                    }
+            }
+            
+            // Add output if any
+            if (output) {
+                const outputLines = output.split('\n');
+                outputLines.forEach(line => {
+                    const outputLine = document.createElement('div');
+                    outputLine.className = 'output-line';
+                    outputLine.innerHTML = `<span class="output">${line}</span>`;
+                    terminalOutput.appendChild(outputLine);
+                });
+            }
+            
+            // Add new prompt
+            const newPrompt = document.createElement('div');
+            newPrompt.className = 'command-line interactive-prompt';
+            newPrompt.innerHTML = `
+                <span class="prompt">ashutosh@portfolio:~$</span> 
+                <span class="command-input">
+                    <input type="text" class="terminal-input" placeholder="" autocomplete="off">
+                </span>
+            `;
+            terminalOutput.appendChild(newPrompt);
+            
+            // Remove old prompt and focus new input
+            const oldPrompt = terminalOutput.querySelector('.interactive-prompt');
+            if (oldPrompt && oldPrompt !== newPrompt) {
+                oldPrompt.remove();
+            }
+            
+            // Focus the new input and attach event listeners
+            const newInput = newPrompt.querySelector('.terminal-input');
+            newInput.focus();
+            
+            // Attach event listeners to the new input
+            attachInputListeners(newInput);
+        }
+    });
+}
+
+// Initialize hero easter egg
+function initHeroEasterEgg() {
+    const heroInput = document.getElementById('hero-input');
+    if (!heroInput) return;
+    
+    // Focus the input when hero section is visible
+    const heroSection = document.getElementById('home');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(() => heroInput.focus(), 100);
+            }
+        });
+    }, { threshold: 0.5 });
+    observer.observe(heroSection);
+    
+    // Attach listeners to the initial input
+    attachInputListeners(heroInput);
+}
+
+// Initialize section easter eggs
+function initSectionEasterEggs() {
+    const sections = ['about', 'skills', 'experience', 'education', 'projects', 'contact'];
+    
+    sections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            // Add interactive terminal to each section
+            addSectionTerminal(section, sectionId);
+        }
+    });
+}
+
+// Add interactive terminal to a section
+function addSectionTerminal(section, sectionId) {
+    const terminalOutput = section.querySelector('.terminal-output');
+    if (!terminalOutput) return;
+    
+    // Check if there's already an interactive prompt to avoid duplicates
+    const existingPrompt = terminalOutput.querySelector('.interactive-prompt');
+    if (existingPrompt) {
+        return; // Don't add another prompt if one already exists
+    }
+    
+    // Add a separator and interactive prompt
+    const separator = document.createElement('div');
+    separator.className = 'output-line';
+    separator.innerHTML = '<span class="output"></span>';
+    terminalOutput.appendChild(separator);
+    
+    const interactivePrompt = document.createElement('div');
+    interactivePrompt.className = 'command-line interactive-prompt';
+    interactivePrompt.innerHTML = `
+        <span class="prompt">ashutosh@portfolio:~$</span> 
+        <span class="command-input">
+            <input type="text" class="terminal-input section-input" placeholder="" autocomplete="off">
+        </span>
+    `;
+    terminalOutput.appendChild(interactivePrompt);
+    
+    // Attach listeners to the section input
+    const sectionInput = interactivePrompt.querySelector('.terminal-input');
+    attachInputListeners(sectionInput);
+}
+
 
 // Error handling
 window.addEventListener('error', (e) => {

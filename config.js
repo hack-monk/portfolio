@@ -5,7 +5,7 @@ const PORTFOLIO_CONFIG = {
     // Personal Information
     personal: {
         name: "Ashutosh Sonar",
-        title: "DevOps | Infra | Security",
+        title: "DevOps | Cloud | Infra | Security",
         email: "ashusonar1998@gmail.com",
         phone: "+1 (234) 567-890",
         location: "Melbourne, Florida",
@@ -186,7 +186,7 @@ const PORTFOLIO_CONFIG = {
             description:
               "CLI that recommends hybrid threat models for AI/ML systems; plugs into CI to guide secure architecture choices and PR checks.",
             technologies: ["Python", "CI/CD", "STRIDE", "LINDDUN", "AWS EC2"],
-            github: "https://github.com/hack-monk/ThreatModelRecommeder.git",
+            github: "Git Link: https://github.com/hack-monk/ThreatModelRecommeder.git",
             demo: "",
             metrics: { riskReduction: "≈65% fewer undetected risks in pilot assessments" }
           },
@@ -196,7 +196,7 @@ const PORTFOLIO_CONFIG = {
             description:
               "AES + SHA-256 based integrity verification and tamper localization with serverless storage for low-cost scale.",
             technologies: ["AES", "SHA-256", "AWS Lambda", "S3"],
-            github: "https://github.com/hack-monk/encrypted-video-tampering-detection-and-localization-via-cloud.git",
+            github: "Git Link: https://github.com/hack-monk/encrypted-video-tampering-detection-and-localization-via-cloud.git",
             demo: "",
             metrics: { costReduction: "≈25% cloud cost reduction", latency: "near real-time verification" }
           },
@@ -206,7 +206,7 @@ const PORTFOLIO_CONFIG = {
             description:
               "A feature-complete Python shell with pipelines, completion, and persistent history — built to understand shell internals and harden CLI tooling.",
             technologies: ["Python"],
-            github: "https://github.com/hack-monk/mysh.git",
+            github: "Git Link: https://github.com/hack-monk/mysh.git",
             demo: "",
             metrics: { usability: "Improved developer workflow for repeatable ops" }
           },
@@ -248,8 +248,8 @@ const PORTFOLIO_CONFIG = {
 
     // SEO Configuration
     seo: {
-        title: "Ashutosh Sonar - DevOps | Infra | Security",
-        description: "Ashutosh Sonar - DevOps | Infra | Security",
+        title: "Ashutosh Sonar - DevOps | Cloud | Infra | Security",
+        description: "Ashutosh Sonar - DevOps | Cloud | Infra | Security",
         keywords: "DevOps, Cloud, Security, CI/CD, Kubernetes, AWS, Terraform, Ansible, Prometheus, Grafana",
         author: "Ashutosh Sonar",
         url: "https://ashutoshsonar.dev"

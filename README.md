@@ -303,6 +303,33 @@ The template is fully responsive and works on:
 - Mobile phones
 - All screen sizes
 
+### Mobile Testing
+To test on mobile devices:
+
+1. **Browser Developer Tools**:
+   - Chrome/Edge: `F12` → Device icon (📱) → Select device
+   - Firefox: `F12` → Responsive design mode
+   - Safari: Develop → Enter Responsive Design Mode
+
+2. **Local Network Testing**:
+   ```bash
+   python3 -m http.server 8001
+   # Access via: http://[YOUR_IP]:8001
+   ```
+
+3. **Online Testing Tools**:
+   - BrowserStack (free trial)
+   - Responsinator.com
+   - Google Mobile-Friendly Test
+
+### Mobile Features Tested
+- ✅ Touch typing in terminal interface
+- ✅ Responsive navigation and scrolling
+- ✅ Contact form touch interactions
+- ✅ Copy buttons and touch targets
+- ✅ Keyboard compatibility
+- ✅ Layout adaptation for small screens
+
 ## ♿ Accessibility
 
 - WCAG 2.1 AA compliant
@@ -368,6 +395,9 @@ Feel free to submit issues and enhancement requests!
 - ✅ Fixed keyboard input issues
 - ✅ Enhanced accessibility features
 - ✅ Improved responsive design
+- ✅ Mobile testing support and optimization
+- ✅ Fixed metrics table alignment issues
+- ✅ Scoped CSS for better performance
 
 ---
 

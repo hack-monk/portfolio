@@ -197,11 +197,7 @@ body {
     color: #cccccc;
 }
 
-.cursor {
-    color: #eab308;
-    animation: blink 1s infinite;
-}
-
+/* Cursor animation keyframes */
 @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
@@ -209,7 +205,7 @@ body {
 
 .link {
     color: #eab308;
-    text-decoration: underline;
+    text-decoration: none;
     transition: color 0.3s ease;
 }
 
@@ -499,10 +495,6 @@ section {
 
 /* Animation for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    .cursor {
-        animation: none;
-    }
-    
     * {
         transition: none;
     }
@@ -654,4 +646,39 @@ a:focus {
 .info {
     color: #00aaff;
     border-color: #00aaff;
+}
+
+/* Interactive Prompt Styling */
+.interactive-prompt {
+    position: relative;
+}
+
+.interactive-prompt .command-input {
+    position: relative;
+    display: inline-block;
+    min-width: 200px;
+}
+
+.interactive-prompt .terminal-input {
+    background: transparent;
+    border: none;
+    color: #eab308;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 1rem;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    min-width: 200px;
+    border-bottom: none;
+    caret-color: transparent;
+    cursor: none;
+}
+
+/* Interactive prompt cursor is handled by JavaScript */
+
+/* Metrics table alignment - only for metrics tables */
+.metrics-table .output-line {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    white-space: pre;
 }
