@@ -115,6 +115,58 @@ function getCurrentTimestamp() {
     return now.toISOString().replace('T', ' ').substring(0, 19);
 }
 
+// Generate realistic timestamp based on duration
+function getRealisticTimestamp(duration) {
+    // Extract year from duration (e.g., "2023 - 2025" or "2023 - Present")
+    const yearMatch = duration.match(/(\d{4})/);
+    if (yearMatch) {
+        const year = parseInt(yearMatch[1]);
+        const month = Math.floor(Math.random() * 12) + 1;
+        const day = Math.floor(Math.random() * 28) + 1;
+        const hour = Math.floor(Math.random() * 24);
+        const minute = Math.floor(Math.random() * 60);
+        const second = Math.floor(Math.random() * 60);
+        
+        const date = new Date(year, month - 1, day, hour, minute, second);
+        return date.toISOString().replace('T', ' ').substring(0, 19);
+    }
+    
+    // Fallback to current time if no year found
+    return getCurrentTimestamp();
+}
+
+// Generate static realistic timestamps for experience entries
+function getExperienceTimestamps(duration, entryIndex) {
+    const timestamps = {
+        "Aug 2023 - May2025": [
+            "2023-08-21 11:50:15",
+            "2023-08-21 11:50:15", 
+            "2024-09-30 13:43:34",
+            "2025-01-23 09:54:39",
+            "2025-02-26 16:32:29",
+            "2025-05-10 11:00:00",
+            "2025-05-10 11:00:00"
+        ],
+        "Aug 2024 - May2025": [
+            "2024-08-21 11:50:15",
+            "2024-08-21 11:50:15",
+            "2024-09-30 13:43:34", 
+            "2025-01-23 09:54:39",
+            "2025-02-26 16:32:29",
+            "2025-05-10 11:00:00",
+            "2025-05-10 11:00:00"
+        ]
+    };
+    
+    const key = duration.trim();
+    if (timestamps[key] && timestamps[key][entryIndex]) {
+        return timestamps[key][entryIndex];
+    }
+    
+    // Fallback to realistic timestamp
+    return getRealisticTimestamp(duration);
+}
+
 // Update page title and terminal title
 function updatePageTitle(config) {
     document.getElementById('page-title').textContent = config.seo.title;
@@ -214,36 +266,95 @@ function updateSkillsSection(config) {
     findCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">find skills/ -name "*.skill" -exec basename {} .skill \\;</span>`;
     terminalOutput.appendChild(findCommand);
     
-    // Generate compact skills list
+    // Add visual skills section - try different layouts
+    const visualSkillsContainer = document.createElement('div');
+    visualSkillsContainer.className = 'skills-visual';
+    terminalOutput.appendChild(visualSkillsContainer);
+    
+    // Generate visual skills cards with improved layout
     config.skills.categories.forEach((category, categoryIndex) => {
-        // Add category header
-        const categoryHeader = document.createElement('div');
-        categoryHeader.className = 'output-line';
-        categoryHeader.innerHTML = `<span class="output"># ${category.name}</span>`;
-        terminalOutput.appendChild(categoryHeader);
+        const categoryCard = document.createElement('div');
+        categoryCard.className = 'skill-category';
         
-        // Add skills in category as a compact list
-        const skillsList = category.items.map(skill => {
+        const categoryTitle = document.createElement('div');
+        categoryTitle.className = 'skill-category-title';
+        categoryTitle.innerHTML = `<span class="skill-category-icon">${getCategoryIcon(category.name)}</span>${category.name}`;
+        categoryCard.appendChild(categoryTitle);
+        
+        const skillsGrid = document.createElement('div');
+        skillsGrid.className = 'skill-items-grid';
+        
+        category.items.forEach(skill => {
+            const skillItem = document.createElement('span');
+            skillItem.className = 'skill-item';
+            
             if (typeof skill === 'string') {
-                return `<span class="skill-item" data-tip="Click for more details">${skill}</span>`;
+                skillItem.textContent = skill;
+                skillItem.setAttribute('data-tip', 'Click for more details');
             } else {
-                return `<span class="skill-item" data-tip="${skill.tip}">${skill.name}</span>`;
+                skillItem.textContent = skill.name;
+                skillItem.setAttribute('data-tip', skill.tip);
             }
-        }).join(' • ');
+            
+            skillsGrid.appendChild(skillItem);
+        });
         
-        const skillsLine = document.createElement('div');
-        skillsLine.className = 'output-line';
-        skillsLine.innerHTML = `<span class="output">  ${skillsList}</span>`;
-        terminalOutput.appendChild(skillsLine);
-        
-        // Add separator if not last category
-        if (categoryIndex < config.skills.categories.length - 1) {
-            const separator = document.createElement('div');
-            separator.className = 'output-line';
-            separator.innerHTML = '<span class="output"></span>';
-            terminalOutput.appendChild(separator);
-        }
+        categoryCard.appendChild(skillsGrid);
+        visualSkillsContainer.appendChild(categoryCard);
     });
+    
+    // Add alternative tag cloud layout
+    const tagCloudContainer = document.createElement('div');
+    tagCloudContainer.className = 'skills-tag-cloud';
+    tagCloudContainer.style.display = 'none'; // Hidden by default
+    terminalOutput.appendChild(tagCloudContainer);
+    
+    // Generate tag cloud
+    config.skills.categories.forEach(category => {
+        category.items.forEach(skill => {
+            const skillTag = document.createElement('span');
+            skillTag.className = 'skill-tag';
+            
+            if (typeof skill === 'string') {
+                skillTag.textContent = skill;
+                skillTag.setAttribute('data-tip', 'Click for more details');
+            } else {
+                skillTag.textContent = skill.name;
+                skillTag.setAttribute('data-tip', skill.tip);
+            }
+            
+            tagCloudContainer.appendChild(skillTag);
+        });
+    });
+}
+
+// Get category icons
+function getCategoryIcon(categoryName) {
+    // Return SVG icons for each category
+    const icons = {
+        'Programming_Languages': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="category-icon">
+            <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+        </svg>`,
+        'DevOps_Tools': `<span class="infinity-icon">∞</span>`,
+        'Cloud_and_Infra': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="category-icon">
+            <path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+        </svg>`,
+        'Monitoring_and_Logging': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="category-icon">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+        </svg>`,
+        'Database_and_Messaging': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="category-icon">
+            <path d="M12 3C7.58 3 4 4.79 4 7s3.58 4 8 4 8-1.79 8-4-3.58-4-8-4zM4 9c0 2.21 3.58 4 8 4s8-1.79 8-4v2c0 2.21-3.58 4-8 4s-8-1.79-8-4V9zm0 4c0 2.21 3.58 4 8 4s8-1.79 8-4v2c0 2.21-3.58 4-8 4s-8-1.79-8-4v-2z"/>
+        </svg>`,
+        'Networking': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="category-icon">
+            <path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.07 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+        </svg>`,
+        'Concepts': `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="category-icon">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>`
+    };
+    return icons[categoryName] || `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="category-icon">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+    </svg>`;
 }
 
 // Update experience section
@@ -266,8 +377,8 @@ function updateExperienceSection(config) {
     // Generate detailed ls -la output for log files
     config.experience.forEach((exp, index) => {
         const filename = `${exp.title}.log`;
-        const timestamp = getCurrentTimestamp();
-        const fileTime = new Date();
+        const timestamp = getRealisticTimestamp(exp.duration);
+        const fileTime = new Date(getRealisticTimestamp(exp.duration));
         const formattedTime = formatTimestamp(fileTime);
         
         // Calculate file size (simulate log file sizes)
@@ -285,64 +396,88 @@ function updateExperienceSection(config) {
     separator.innerHTML = '<span class="output"></span>';
     terminalOutput.appendChild(separator);
     
-    // Generate each experience as a separate log file
+    // Add timeline visualization as terminal output
+    const timelineContainer = document.createElement('div');
+    timelineContainer.className = 'experience-timeline';
+    terminalOutput.appendChild(timelineContainer);
+    
+    // Generate timeline items for each experience
     config.experience.forEach((exp, index) => {
-        const timestamp = getCurrentTimestamp();
-        const filename = `${exp.title}.log`;
+        // Create timeline item (no cat command)
+        const timelineItem = document.createElement('div');
+        timelineItem.className = 'timeline-item';
+        timelineContainer.appendChild(timelineItem);
         
-        // Add cat command for this specific log file
-        const catCommand = document.createElement('div');
-        catCommand.className = 'command-line';
-        catCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">cat experience/${filename}</span>`;
-        terminalOutput.appendChild(catCommand);
+        // Create timeline card
+        const timelineCard = document.createElement('div');
+        timelineCard.className = 'timeline-card';
+        timelineItem.appendChild(timelineCard);
         
-        // Add log file header
-        const logHeader = document.createElement('div');
-        logHeader.className = 'output-line';
-        logHeader.innerHTML = `<span class="output">=== ${exp.title} - ${exp.company} ===</span>`;
-        terminalOutput.appendChild(logHeader);
+        // Timeline header
+        const timelineHeader = document.createElement('div');
+        timelineHeader.className = 'timeline-header';
+        timelineCard.appendChild(timelineHeader);
         
-        // Add basic info
-        const infoLine = document.createElement('div');
-        infoLine.className = 'output-line';
-        infoLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Duration: ${exp.duration}</span>`;
-        terminalOutput.appendChild(infoLine);
+        // Title and company
+        const titleSection = document.createElement('div');
+        const timelineTitle = document.createElement('h3');
+        timelineTitle.className = 'timeline-title';
+        timelineTitle.textContent = exp.title;
+        titleSection.appendChild(timelineTitle);
         
-        const locationLine = document.createElement('div');
-        locationLine.className = 'output-line';
-        locationLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Location: ${exp.location}</span>`;
-        terminalOutput.appendChild(locationLine);
+        const timelineCompany = document.createElement('p');
+        timelineCompany.className = 'timeline-company';
+        timelineCompany.textContent = exp.company;
+        titleSection.appendChild(timelineCompany);
         
-        // Add achievements
-        exp.achievements.forEach(achievement => {
-            const achievementLine = document.createElement('div');
-            achievementLine.className = 'output-line';
-            achievementLine.innerHTML = `<span class="output">[${timestamp}] [INFO] ${achievement}</span>`;
-            terminalOutput.appendChild(achievementLine);
-        });
+        timelineHeader.appendChild(titleSection);
         
-        // Add technologies if available
+        // Duration badge
+        const durationBadge = document.createElement('span');
+        durationBadge.className = 'timeline-duration';
+        durationBadge.textContent = exp.duration;
+        timelineHeader.appendChild(durationBadge);
+        
+        // Location
+        const location = document.createElement('p');
+        location.className = 'timeline-location';
+        location.textContent = `📍 ${exp.location}`;
+        timelineCard.appendChild(location);
+        
+        // Achievements
+        if (exp.achievements && exp.achievements.length > 0) {
+            const achievementsContainer = document.createElement('div');
+            achievementsContainer.className = 'timeline-achievements';
+            timelineCard.appendChild(achievementsContainer);
+            
+            exp.achievements.forEach(achievement => {
+                const achievementItem = document.createElement('div');
+                achievementItem.className = 'achievement-item';
+                
+                const achievementText = document.createElement('p');
+                achievementText.className = 'achievement-text';
+                achievementText.textContent = achievement;
+                achievementItem.appendChild(achievementText);
+                
+                achievementsContainer.appendChild(achievementItem);
+            });
+        }
+        
+        // Technologies
         if (exp.technologies && exp.technologies.length > 0) {
-            const techLine = document.createElement('div');
-            techLine.className = 'output-line';
-            techLine.innerHTML = `<span class="output">[${timestamp}] [INFO] Technologies: ${exp.technologies.join(', ')}</span>`;
-            terminalOutput.appendChild(techLine);
+            const techContainer = document.createElement('div');
+            techContainer.className = 'timeline-technologies';
+            timelineCard.appendChild(techContainer);
+            
+            exp.technologies.forEach(tech => {
+                const techBadge = document.createElement('span');
+                techBadge.className = 'tech-badge';
+                techBadge.textContent = tech;
+                techContainer.appendChild(techBadge);
+            });
         }
         
-        // Add status completion
-        const statusLine = document.createElement('div');
-        statusLine.className = 'output-line';
-        const completionText = exp.title.toLowerCase().includes('intern') ? 'Internship completed successfully' : `${exp.title} completed successfully`;
-        statusLine.innerHTML = `<span class="output">[${timestamp}] [DONE] ${completionText}</span>`;
-        terminalOutput.appendChild(statusLine);
-        
-        // Add separator if not last
-        if (index < config.experience.length - 1) {
-            const separator = document.createElement('div');
-            separator.className = 'output-line';
-            separator.innerHTML = '<span class="output"></span>';
-            terminalOutput.appendChild(separator);
-        }
+        // Status removed - no completion messages
     });
 }
 
@@ -366,8 +501,8 @@ function updateEducationSection(config) {
     // Generate detailed ls -la output for education files
     config.education.forEach((edu, index) => {
         const filename = `${edu.degree}.log`;
-        const timestamp = getCurrentTimestamp();
-        const fileTime = new Date();
+        const timestamp = getRealisticTimestamp(edu.duration);
+        const fileTime = new Date(getRealisticTimestamp(edu.duration));
         const formattedTime = formatTimestamp(fileTime);
         
         // Calculate file size (simulate education file sizes)
@@ -387,7 +522,7 @@ function updateEducationSection(config) {
     
     // Generate each education as a separate log file
     config.education.forEach((edu, index) => {
-        const timestamp = getCurrentTimestamp();
+        const timestamp = getRealisticTimestamp(edu.duration);
         const filename = `${edu.degree}.log`;
         
         // Add cat command for this specific log file
@@ -450,7 +585,7 @@ function updateEducationSection(config) {
     });
 }
 
-// Update projects section
+// Update projects section - Terminal commands + Visual cards
 function updateProjectsSection(config) {
     const projectsSection = document.getElementById('projects');
     if (!projectsSection) return;
@@ -481,7 +616,7 @@ function updateProjectsSection(config) {
         terminalOutput.appendChild(projectLine);
     });
     
-    // Add project details
+    // Add project details with visual cards as output
     config.projects.forEach(project => {
         // Add cat command for each project
         const catCommand = document.createElement('div');
@@ -489,32 +624,45 @@ function updateProjectsSection(config) {
         catCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">cat projects/${project.name}/README.md</span>`;
         terminalOutput.appendChild(catCommand);
         
-        // Add project title
-        const titleLine = document.createElement('div');
-        titleLine.className = 'output-line';
-        titleLine.innerHTML = `<span class="output"># ${project.title}</span>`;
-        terminalOutput.appendChild(titleLine);
+        // Create project card as "output" of the cat command
+        const projectCard = document.createElement('div');
+        projectCard.className = 'project-card terminal-output-card';
+        terminalOutput.appendChild(projectCard);
         
-        // Add project description
-        const descLine = document.createElement('div');
-        descLine.className = 'output-line';
-        descLine.innerHTML = `<span class="output">${project.description}</span>`;
-        terminalOutput.appendChild(descLine);
+        // Project title
+        const projectTitle = document.createElement('div');
+        projectTitle.className = 'project-title';
+        projectTitle.textContent = project.title;
+        projectCard.appendChild(projectTitle);
         
-        // Add technologies
-        const techLine = document.createElement('div');
-        techLine.className = 'output-line';
-        techLine.innerHTML = `<span class="output">Tech Stack: ${project.technologies.join(', ')}</span>`;
-        terminalOutput.appendChild(techLine);
+        // Project description
+        const projectDescription = document.createElement('div');
+        projectDescription.className = 'project-description';
+        projectDescription.textContent = project.description;
+        projectCard.appendChild(projectDescription);
+        
+        // Technologies
+        if (project.technologies && project.technologies.length > 0) {
+            const techContainer = document.createElement('div');
+            techContainer.className = 'project-tech';
+            
+            project.technologies.forEach(tech => {
+                const techTag = document.createElement('span');
+                techTag.className = 'tech-tag';
+                techTag.textContent = tech;
+                techContainer.appendChild(techTag);
+            });
+            
+            projectCard.appendChild(techContainer);
+        }
         
         // Add metrics if available
-        if (project.metrics) {
+        if (project.metrics && Object.keys(project.metrics).length > 0) {
             const metricsCommand = document.createElement('div');
             metricsCommand.className = 'command-line';
             metricsCommand.innerHTML = `<span class="prompt">${config.terminal.prompt}</span> <span class="command">metrics</span>`;
             terminalOutput.appendChild(metricsCommand);
             
-            // Collect all metrics data
             const metricsData = [];
             if (project.metrics.riskReduction) {
                 metricsData.push({ metric: 'Risk Reduction', value: project.metrics.riskReduction });
@@ -584,23 +732,30 @@ function updateProjectsSection(config) {
             }
         }
         
-        // Add GitHub link if available
+        // Project links
+        const linksContainer = document.createElement('div');
+        linksContainer.className = 'project-links';
+        
         if (project.github) {
-            const gitLine = document.createElement('div');
-            gitLine.className = 'output-line';
-            // Extract just the URL from "Git Link: https://..." format
             const githubUrl = project.github.replace('Git Link: ', '');
-            gitLine.innerHTML = `<span class="output">> <span style="color: white;">Git Link: </span><a href="${githubUrl}" class="link" target="_blank">${githubUrl}</a> <button class="copy-btn" aria-label="Copy GitHub link" data-copy="${githubUrl}">[ copy ]</button></span>`;
-            terminalOutput.appendChild(gitLine);
+            const githubLink = document.createElement('a');
+            githubLink.className = 'project-link';
+            githubLink.href = githubUrl;
+            githubLink.target = '_blank';
+            githubLink.innerHTML = '<i class="fab fa-github"></i> GitHub';
+            linksContainer.appendChild(githubLink);
         }
         
-        // Add demo link if available
         if (project.demo) {
-            const demoLine = document.createElement('div');
-            demoLine.className = 'output-line';
-            demoLine.innerHTML = `<span class="output">> <a href="${project.demo}" class="link" target="_blank">open ${project.demo}</a> <button class="copy-btn" aria-label="Copy demo URL" data-copy="${project.demo}">[ copy ]</button></span>`;
-            terminalOutput.appendChild(demoLine);
+            const demoLink = document.createElement('a');
+            demoLink.className = 'project-link';
+            demoLink.href = project.demo;
+            demoLink.target = '_blank';
+            demoLink.innerHTML = '<i class="fas fa-external-link-alt"></i> Demo';
+            linksContainer.appendChild(demoLink);
         }
+        
+        projectCard.appendChild(linksContainer);
         
         // Add empty line between projects
         const emptyLine = document.createElement('div');
@@ -608,6 +763,8 @@ function updateProjectsSection(config) {
         emptyLine.innerHTML = '<span class="output"></span>';
         terminalOutput.appendChild(emptyLine);
     });
+    
+    // Visual cards are now integrated into terminal output above
 }
 
 // Update contact section
@@ -718,8 +875,8 @@ function initTooltips() {
             tooltip.setAttribute('role', 'tooltip');
             item.appendChild(tooltip);
             
-            item.addEventListener('mouseenter', () => showTooltip(tooltip));
-            item.addEventListener('focus', () => showTooltip(tooltip));
+            item.addEventListener('mouseenter', () => showTooltip(tooltip, item));
+            item.addEventListener('focus', () => showTooltip(tooltip, item));
             item.addEventListener('mouseleave', () => hideTooltip(tooltip));
             item.addEventListener('blur', () => hideTooltip(tooltip));
         }
@@ -734,9 +891,46 @@ function initTooltips() {
     });
 }
 
-function showTooltip(tooltip) {
+function showTooltip(tooltip, item) {
+    // Show tooltip first to get dimensions
     tooltip.style.opacity = '1';
     tooltip.style.visibility = 'visible';
+    
+    // Get viewport and tooltip dimensions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    
+    // Reset positioning
+    tooltip.style.left = '50%';
+    tooltip.style.transform = 'translateX(-50%)';
+    tooltip.style.bottom = '100%';
+    tooltip.style.top = 'auto';
+    
+    // Check if tooltip goes off the right edge
+    if (tooltipRect.right > viewportWidth - 10) {
+        tooltip.style.left = 'auto';
+        tooltip.style.right = '0';
+        tooltip.style.transform = 'none';
+    }
+    
+    // Check if tooltip goes off the left edge
+    if (tooltipRect.left < 10) {
+        tooltip.style.left = '0';
+        tooltip.style.right = 'auto';
+        tooltip.style.transform = 'none';
+    }
+    
+    // Check if tooltip goes off the top edge
+    if (tooltipRect.top < 10) {
+        tooltip.style.bottom = 'auto';
+        tooltip.style.top = '100%';
+        tooltip.style.transform = 'translateX(-50%)';
+        tooltip.classList.add('tooltip-below');
+    } else {
+        tooltip.classList.remove('tooltip-below');
+    }
 }
 
 function hideTooltip(tooltip) {

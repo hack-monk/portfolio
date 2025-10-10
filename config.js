@@ -111,7 +111,7 @@ const PORTFOLIO_CONFIG = {
         {
             title: "Graduate Research Assistant and Grader",
             company: "Florida Institute of Technology",
-            duration: "Aug 2023 - May2025",
+            duration: "Aug 2023 - May 2025",
             location: "Melbourne, Florida, USA",
             achievements: [
                 "Embedded threat-modeling gates in CI/CD, improving early vuln detection by ~40%.",
@@ -124,7 +124,7 @@ const PORTFOLIO_CONFIG = {
             title: "Member of Technical Staff (DevOps Engineer)",
             company: "Coriolis Technology Pvt. Ltd.",
             duration: "Aug 2020 – Jul 2023",
-            location: "Pune, MH India",
+            location: "Pune, Maharashtra, India",
             achievements: [
               "Built Jenkins→ArgoCD pipelines; reduced manual release effort by ~50%.",
               "Ran self-healing K8s for microservices with measured 99.999% availability.",
@@ -137,7 +137,7 @@ const PORTFOLIO_CONFIG = {
             title: "Intern",
             company: "Hackedemist",
             duration: "Jul 2017 – Jun 2019",
-            location: "Pune, India",
+            location: "Pune, Maharashtra, India",
             achievements: [
               "Built AES-encrypted storage with sub-second integrity checks.",
               "Integrated MQTT on AWS for IoT; improved packet reliability by ~25%.",
