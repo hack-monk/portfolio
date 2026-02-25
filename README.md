@@ -2,7 +2,7 @@
 
 A fully interactive, single-file portfolio that looks and feels like an Ubuntu desktop — complete with a login screen, draggable windows, a working bash terminal, and a file-explorer UI for projects, experience, and education.
 
-**[Live Demo →](https://your-netlify-url.netlify.app)**
+**[Live Demo →](https://ashutoshsonar.netlify.app/)**
 
 ---
 
