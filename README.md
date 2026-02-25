@@ -14,8 +14,22 @@ A fully interactive, single-file portfolio that looks and feels like an Ubuntu d
 - 📁 File explorer UI for Projects, Experience & Education
 - 💻 Fully working bash terminal with 20+ commands
 - 📰 About Me, Skills, Contact windows
+- 📱 Fully responsive mobile layout (< 768px)
 - 🔌 Power Off / Log Out from the top bar
 - ⚡ Zero dependencies — pure HTML, CSS, JavaScript
+
+---
+
+## 📱 Mobile Experience
+
+On screens smaller than 768px, the desktop UI is replaced with a clean mobile layout:
+
+- Sticky top bar with avatar and social links
+- Hero section with name, role, tags, Resume + Email buttons
+- Scrollable tab navigation — About · Skills · Projects · Experience · Education · Contact
+- Animated skill bars, project cards, experience timeline, and contact links
+
+Everything pulls from the same `CONFIG` block — no separate data to maintain.
 
 ---
 
@@ -196,3 +210,9 @@ Users can type these in the terminal window:
 
 Built by [Ashutosh Sonar](https://github.com/hack-monk).  
 Template free to use and adapt — just swap in your own info!
+
+---
+
+## 📄 License
+
+MIT — free to use, fork, and build on. A credit back is appreciated but not required.
