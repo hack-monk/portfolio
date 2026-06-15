@@ -321,6 +321,20 @@ a.ta:hover { text-decoration: underline; }
 .ci { padding: 7px 14px; border-radius: 4px; cursor: pointer; color: #9B93A8; display: flex; align-items: center; gap: 8px; transition: background .1s; }
 .ci:hover { background: rgba(233,84,32,0.15); color: var(--text); }
 .cs { height: 1px; background: rgba(255,255,255,0.07); margin: 3px 8px; }
+
+/* ── MOBILE RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 600px) {
+  #term-win {
+    top: 36px;
+    left: 0; right: 0;
+    transform: none;
+    width: 100%;
+    height: calc(100vh - 100px);
+    border-radius: 0;
+  }
+  #icons { display: none; }
+  .tsh, .tsb { font-size: 11px; }
+}
 </style>
 </head>
 <body>
@@ -1292,8 +1306,8 @@ tIn.addEventListener('keydown',e=>{
     e.preventDefault();
     const v=tIn.value.trim().toLowerCase();
     const m=Object.keys(CMDS).filter(c=>c.startsWith(v)&&c!==v);
-    if(m.length===1){tIn.value=m[0];}
-    else if(m.length>1){pr(`<span class="tc-gy">${m.join('  ')}</span>`);echoPS(tIn.value);}
+    if(m.length===1){tIn.value=m[0];setTimeout(()=>{tIn.focus();tIn.selectionStart=tIn.selectionEnd=tIn.value.length;},0);}
+    else if(m.length>1){pr(`<span class="tc-gy">${m.join('  ')}</span>`);echoPS(tIn.value);setTimeout(()=>{tIn.focus();},0);}
   } else if(e.key==='l'&&e.ctrlKey){
     e.preventDefault(); tOut.innerHTML='';
   } else if(e.key==='c'&&e.ctrlKey){
